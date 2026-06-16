@@ -1,0 +1,8 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Icon Frame">
+<g id="Base">
+</g>
+<path id="Rectangle 10" d="M2 3.33333H14V11.3333C14 12.0697 13.403 12.6667 12.6667 12.6667H3.33333C2.59695 12.6667 2 12.0697 2 11.3333V3.33333Z" stroke="var(--stroke-0, #292929)" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector 64" d="M2 3.33333L8 9.33333L14 3.33333" stroke="var(--stroke-0, #292929)" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</svg>
