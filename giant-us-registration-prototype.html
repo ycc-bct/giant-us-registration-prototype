@@ -317,6 +317,9 @@
     font-family:'Open Sans',Arial,sans-serif;font-weight:600;font-size:12px;line-height:1;
     display:flex;align-items:center;justify-content:center;}
   .btn-pill:disabled,.btn-pill:disabled:hover{background:#d4d4d4;color:#fff;cursor:default;}
+  .btn-pill.loading{pointer-events:none;}
+  .btn-spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.45);
+    border-top-color:#fff;border-radius:50%;animation:gidspin .7s linear infinite;}
   .id-row{display:flex;align-items:center;gap:8px;margin-top:14px;font-size:14px;font-weight:700;color:#222020;}
   .id-row .ic{width:20px;height:20px;flex:0 0 auto;display:flex;}
   .id-row .ic svg,.id-row .ic img{display:block;width:20px;height:20px;}
@@ -618,7 +621,7 @@
       <button class="btn-forgot" onclick="toLoginForgot()">Forgot password</button>
       <div class="modal-btn-row">
         <button class="link" onclick="toLStep('lm-id')">Back</button>
-        <button class="btn-pill" id="lmLogin" onclick="doLoginFinish()" disabled>Log in</button>
+        <button class="btn-pill" id="lmLogin" onclick="btnLoad(this,doLoginFinish)" disabled>Log in</button>
       </div>
     </div>
 
@@ -742,7 +745,7 @@
       <div class="ck-row" id="ckNews" onclick="toggleSuCk('news')"><span class="ckbox"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span><span>Subscribe to cycling and event updates</span></div>
       <div class="modal-btn-row">
         <button class="link" onclick="toLStep('su-verify')">Back</button>
-        <button class="btn-pill" id="suSignup" onclick="doGidSignUp()" disabled>Sign up</button>
+        <button class="btn-pill" id="suSignup" onclick="btnLoad(this,doGidSignUp)" disabled>Sign up</button>
       </div>
     </div>
 
@@ -1178,6 +1181,21 @@ function startResend(){
   },1000);
 }
 function resendCode(){startResend();/* (Prototype) 重新寄送驗證碼 */}
+
+// 按鈕 loading：顯示 spinner 約 0.9 秒後執行 done()，再進下一步
+function btnLoad(btn,done){
+  if(btn.dataset.loading)return;
+  btn.dataset.loading='1';
+  const orig=btn.innerHTML;
+  btn.classList.add('loading');
+  btn.innerHTML='<span class="btn-spinner"></span>';
+  setTimeout(function(){
+    btn.innerHTML=orig;
+    btn.classList.remove('loading');
+    delete btn.dataset.loading;
+    done();
+  },900);
+}
 // 按 Sign up：關閉 modal、更新側欄 CONTACT INFO、完成 Step 2 → Step 3
 function verifySignup(){
   closeVerifyModal();
