@@ -869,7 +869,7 @@ function hideErr(id){document.getElementById(id).classList.remove('show');}
 
 function goStep(n){
   for(let i=1;i<=5;i++){const el=document.getElementById('step'+i);el.classList.remove('active','done');if(i<n)el.classList.add('done');if(i===n)el.classList.add('active');}
-  document.getElementById('loginHint').style.display='none';
+  document.getElementById('loginHint').style.display=(n===2 && document.getElementById('newCustomer').style.display==='block')?'block':'none';
   updateAside();
   document.getElementById('step'+n).scrollIntoView({behavior:'smooth',block:'center'});
 }
