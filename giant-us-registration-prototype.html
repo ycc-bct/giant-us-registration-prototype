@@ -207,7 +207,7 @@
   /* ---- Giant ID login modal ---- */
   .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:1000;padding:16px;}
   .modal-overlay.show{display:flex;}
-  .login-card{position:relative;width:546px;max-width:100%;max-height:calc(100vh - 32px);overflow-y:auto;
+  .login-card{position:relative;width:546px;max-width:100%;height:680px;max-height:calc(100vh - 32px);overflow-y:auto;
     background:#fff;box-shadow:0 8px 32px rgba(0,0,0,.09);border-radius:16px;padding:64px;}
   @media(max-width:560px){.login-card{padding:56px 24px 32px;}}
   .modal-x{position:absolute;top:18px;right:18px;width:36px;height:36px;border:none;background:transparent;
@@ -215,8 +215,8 @@
   .modal-x:hover{background:#f2f2f2;}
   .login-logo img{height:16px;width:auto;max-width:100%;display:block;}
   .login-card h2{font-family:'Overpass','Open Sans',Arial,sans-serif;font-weight:800;font-size:36px;line-height:1.2;
-    letter-spacing:-.02em;color:#000;margin:40px 0 0;white-space:nowrap;}
-  @media(max-width:560px){.login-card h2{font-size:28px;white-space:normal;}}
+    letter-spacing:-.02em;color:#000;margin:40px 0 0;}
+  @media(max-width:560px){.login-card h2{font-size:28px;}}
   .field-group{display:flex;flex-direction:column;gap:4px;margin-top:48px;}
   .field-group label{font-weight:700;font-size:14px;line-height:20px;color:#222020;}
   .field-group input{height:40px;padding:8px 12px;border:1px solid #DEDEE0;border-radius:4px;font-size:14px;color:#222020;font-family:inherit;width:100%;max-width:none;}
@@ -286,16 +286,103 @@
   .vc-btn-row{display:flex;justify-content:flex-end;margin-top:48px;}
 
   /* ---- Toast ---- */
-  .toast{position:fixed;left:50%;bottom:32px;transform:translateX(-50%) translateY(12px);
-    display:flex;align-items:center;gap:10px;background:#1b5e20;color:#fff;
-    padding:14px 22px;border-radius:8px;font-size:15px;font-weight:600;
-    box-shadow:0 6px 20px rgba(0,0,0,.18);z-index:2000;opacity:0;pointer-events:none;
+  .toast{position:fixed;left:50%;top:20px;transform:translateX(-50%) translateY(-14px);
+    display:flex;align-items:center;gap:12px;background:#DAF8E6;color:#111928;
+    padding:15px 18px;border-radius:8px;
+    font-family:'Inter','Open Sans',Arial,sans-serif;font-size:16px;font-weight:500;line-height:24px;
+    box-shadow:0 1px 3px rgba(166,175,195,.4);z-index:2000;opacity:0;pointer-events:none;
     transition:opacity .35s ease,transform .35s ease;}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
   .toast svg{display:block;flex:0 0 auto;}
+
+  /* ---- Proposal switcher (always on top) ---- */
+  .proposal-switch{position:fixed;right:16px;bottom:16px;z-index:99999;
+    display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.96);
+    border:1px solid #d4d4d4;border-radius:26px;padding:5px 6px 5px 12px;
+    box-shadow:0 4px 18px rgba(0,0,0,.2);font-family:'Open Sans',Arial,sans-serif;}
+  .proposal-switch .ps-label{font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.5px;}
+  .proposal-switch button{border:none;background:transparent;border-radius:20px;
+    padding:8px 14px;font-size:13px;font-weight:700;color:#555;cursor:pointer;font-family:inherit;}
+  .proposal-switch button:hover{color:var(--giant-navy);}
+  .proposal-switch button.active{background:var(--giant-navy);color:#fff;}
+
+  /* ---- Multi-step login / sign-up modal ---- */
+  .lstep{display:none;}
+  .lstep.on{display:flex;flex-direction:column;min-height:100%;}
+  /* 子步驟（按鈕列為最後一個元素）→ 按鈕釘在底部，切換時位置一致 */
+  .lstep > .modal-btn-row:last-child{margin-top:auto;}
+  /* Sign up 步驟：藍色圓點編號 + 副標 */
+  .su-stepline{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:14px;line-height:20px;color:#58626e;}
+  .su-dot{width:20px;height:20px;flex:0 0 auto;border-radius:50%;background:#0050FC;color:#fff;
+    font-family:'Open Sans',Arial,sans-serif;font-weight:600;font-size:12px;line-height:1;
+    display:flex;align-items:center;justify-content:center;}
+  .btn-pill:disabled,.btn-pill:disabled:hover{background:#d4d4d4;color:#fff;cursor:default;}
+  .id-row{display:flex;align-items:center;gap:8px;margin-top:14px;font-size:14px;font-weight:700;color:#222020;}
+  .id-row .ic{width:20px;height:20px;flex:0 0 auto;display:flex;}
+  .id-row .ic svg,.id-row .ic img{display:block;width:20px;height:20px;}
+  .pw-wrap{position:relative;}
+  .pw-wrap input{padding-right:42px;}
+  .pw-wrap .eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#888;display:flex;padding:4px;}
+  .pw-wrap .eye:hover{color:#222;}
+  .pw-wrap .eye svg{display:block;}
+  .btn-forgot{align-self:flex-start;background:none;border:none;padding:12px 0 0;text-align:left;
+    font-family:'Overpass','Open Sans',Arial,sans-serif;font-weight:800;font-size:14px;color:#000;cursor:pointer;}
+  .btn-forgot:hover{opacity:.6;}
+  .pw-err{display:block;min-height:20px;color:var(--err-text);font-size:13px;margin-top:6px;}
+  .resend-left{margin-top:14px;font-size:14px;min-height:20px;}
+  .resend-link{background:none;border:none;padding:0;font-family:'Overpass','Open Sans',Arial,sans-serif;font-weight:800;font-size:14px;color:#abb0b6;cursor:default;}
+  .resend-link.active{color:#0050FC;cursor:pointer;}
+  .resend-link.active:hover{text-decoration:underline;}
+  .ck-row{display:flex;align-items:flex-start;gap:10px;margin-top:16px;font-size:14px;color:#333;cursor:pointer;line-height:1.5;}
+  .ck-row .ckbox{width:18px;height:18px;flex:0 0 auto;margin-top:1px;border:1.5px solid #c2c2c2;border-radius:4px;background:#fff;display:flex;align-items:center;justify-content:center;}
+  .ck-row .ckbox svg{opacity:0;display:block;}
+  .ck-row.checked .ckbox{background:#0050FC;border-color:#0050FC;}
+  .ck-row.checked .ckbox svg{opacity:1;}
+
+  /* ---- Country-code selector (phone) ---- */
+  .cc-input{position:relative;}
+  .cc-pre{position:absolute;left:0;top:0;bottom:0;display:none;align-items:center;padding-left:12px;}
+  .cc-pre.show{display:flex;}
+  .cc-btn{display:flex;align-items:center;gap:5px;background:none;border:none;cursor:pointer;
+    font-size:15px;color:var(--text);font-family:inherit;padding:0;height:100%;white-space:nowrap;}
+  .cc-btn svg{display:block;}
+  .cc-sep{width:1px;height:22px;background:#d4d4d4;margin-left:12px;}
+  .cc-menu{position:absolute;top:calc(100% + 6px);left:0;min-width:230px;max-height:230px;overflow-y:auto;
+    background:#fff;border:1px solid #dedee0;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,.14);display:none;z-index:5;}
+  .cc-menu.on{display:block;}
+  .cc-menu button{display:flex;width:100%;gap:8px;align-items:center;background:none;border:none;text-align:left;
+    padding:10px 14px;font-size:14px;cursor:pointer;font-family:inherit;color:var(--text);}
+  .cc-menu button:hover{background:#f4f4f6;}
+  .cc-menu .cm-code{color:#888;margin-left:auto;}
+
+  /* ---- Proposal B: Giant ID login as a full-screen page (v4 s-login-v2) ---- */
+  body[data-proposal="B"] #loginModal{
+    background:#1a1d22 url('assets/gid-bg.jpg') center/cover no-repeat;
+    justify-content:flex-end;padding-right:clamp(24px,11%,180px);
+  }
+  @media(max-width:760px){
+    body[data-proposal="B"] #loginModal{justify-content:center;padding-right:16px;}
+  }
+  /* B 跳轉時的載入畫面 */
+  .gid-loading{position:fixed;inset:0;z-index:1500;display:none;align-items:center;justify-content:center;
+    background:#1a1d22 url('assets/gid-bg.jpg') center/cover no-repeat;}
+  .gid-loading.show{display:flex;}
+  .gid-loading::before{content:"";position:absolute;inset:0;background:rgba(0,0,0,.5);}
+  .gid-loading .box{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:18px;color:#fff;}
+  .gid-loading .logo{height:18px;width:auto;filter:brightness(0) invert(1);}
+  .gid-spinner{width:44px;height:44px;border:4px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:gidspin .8s linear infinite;}
+  @keyframes gidspin{to{transform:rotate(360deg);}}
+  .gid-loading .txt{font-family:'Overpass','Open Sans',Arial,sans-serif;font-weight:700;font-size:15px;letter-spacing:.3px;}
 </style>
 </head>
-<body>
+<body data-proposal="A">
+
+<!-- Proposal switcher (always on top) -->
+<div class="proposal-switch">
+  <span class="ps-label">Proposal</span>
+  <button id="propA" class="active" onclick="setProposal('A')">A</button>
+  <button id="propB" onclick="setProposal('B')">B</button>
+</div>
 
 <div class="promo">June Promo: Buy any Gavia Course Tires and get FREE Eco Bar Tape <a>Shop Now</a></div>
 
@@ -354,13 +441,13 @@
           <!-- Choice: existing vs new customer -->
           <div class="choice-cards" id="choiceCards">
             <div class="choice-card">
-              <h3>Existing customer</h3>
-              <p>Log in with your existing Giant ID account.</p>
+              <h3>Giant ID</h3>
+              <p>Log in to your account, or create one to manage your registrations.</p>
               <button class="btn-pill" onclick="openLoginModal()">Log in</button>
             </div>
             <div class="choice-card">
               <h3>New customer</h3>
-              <p>Register your product as a guest, or create a Giant ID later.</p>
+              <p>Register your product as a guest — no account needed.</p>
               <button class="btn-pill" onclick="openNewCustomer()">Continue</button>
             </div>
           </div>
@@ -400,12 +487,6 @@
                 <div class="field"><label>Phone number <span class="req">*</span></label><input type="tel" id="phone"></div>
                 <div class="field"><label>Email address <span class="req">*</span></label><input type="email" id="email"></div>
               </div>
-
-              <p class="pw-hint">Optional: in order to save your details you can create an account by entering a password</p>
-              <div class="field"><label>Password</label><input type="password" id="password"></div>
-              <div class="field"><label>Confirm password</label><input type="password" id="passwordConfirm"></div>
-
-              <div class="check-row"><input type="checkbox" id="news"><label for="news">I would like to sign up and learn about new products, special events and get riding tips sent straight to my inbox every week. See how we protect your personal information <a>here</a>.</label></div>
 
               <div class="btn-row">
                 <button class="btn" onclick="submitContact()">Proceed &#8250;</button>
@@ -486,44 +567,185 @@
   </div>
 </div>
 
-<!-- Giant ID login modal -->
+<!-- Giant ID login / sign-up modal (Proposal A — multi-step) -->
 <div class="modal-overlay" id="loginModal" onclick="if(event.target===this)closeLoginModal()">
   <div class="login-card">
     <button class="modal-x" aria-label="Close" onclick="closeLoginModal()">&times;</button>
-    <div class="login-logo">
-      <img src="assets/brand-logos.svg" alt="Giant · Liv · Momentum · Cadex">
-    </div>
-    <h2>Enjoy Giant Cycling World</h2>
 
-    <div class="field-group">
-      <label for="modalEmail">Email or Phone number</label>
-      <input type="text" id="modalEmail" placeholder="Email or Phone number">
+    <!-- LOGIN · step 1: identifier -->
+    <div class="lstep on" id="lm-id">
+      <div class="login-logo"><img src="assets/brand-logos.svg" alt="Giant · Liv · Momentum · Cadex"></div>
+      <h2>Enjoy Giant Cycling World</h2>
+      <div class="field-group">
+        <label for="modalEmail">Email or Phone number</label>
+        <div class="cc-input">
+          <div class="cc-pre" id="lmCcPre">
+            <button type="button" class="cc-btn" onclick="toggleCC('lm')"><span id="lmCcVal">+1</span><svg width="11" height="7" viewBox="0 0 12 8" fill="none" stroke="#555" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1.5 6 6.5 11 1.5"/></svg></button>
+            <div class="cc-sep"></div>
+            <div class="cc-menu" id="lmCcMenu"></div>
+          </div>
+          <input type="text" id="modalEmail" placeholder="Email or Phone number" oninput="onLoginId(this.value)" onkeydown="if(event.key==='Enter')toLoginPw()">
+        </div>
+      </div>
+      <div class="modal-err" id="errModal"></div>
+      <div class="modal-btn-row">
+        <button class="link" onclick="toSignup()">Sign up</button>
+        <button class="btn-pill" id="lmNext" onclick="toLoginPw()" disabled>Next</button>
+      </div>
+      <div class="divider">OR</div>
+      <div class="social-row">
+        <button class="btn-pill ghost" aria-label="Continue with Apple" onclick="socialLogin('Apple')"><img src="assets/ic-apple.svg" alt="Apple"></button>
+        <button class="btn-pill ghost" aria-label="Continue with Facebook" onclick="socialLogin('Facebook')"><img src="assets/ic-facebook.svg" alt="Facebook"></button>
+        <button class="btn-pill ghost" aria-label="Continue with Google" onclick="socialLogin('Google')"><img src="assets/ic-google.svg" alt="Google"></button>
+      </div>
+      <div class="modal-contact" onclick="alert('(Prototype) Contact us flow not implemented.')">
+        <img src="assets/ic-email.svg" alt="" width="16" height="16"><span>Contact us</span>
+      </div>
     </div>
-    <div class="modal-err" id="errModal"></div>
 
-    <div class="modal-btn-row">
-      <button class="link" onclick="signUpFromModal()">Sign up</button>
-      <button class="btn-pill" onclick="giantLogin()">Next</button>
+    <!-- LOGIN · step 2: password -->
+    <div class="lstep" id="lm-pw">
+      <div class="login-logo"><img src="assets/brand-logos.svg" alt="Giant · Liv · Momentum · Cadex"></div>
+      <h2 class="vc-title">Login</h2>
+      <div class="id-row"><span class="ic" id="lmPwIcon"></span><span id="lmPwDisp"></span></div>
+      <div class="field-group" style="margin-top:24px;">
+        <label for="lmPw">Password</label>
+        <div class="pw-wrap">
+          <input type="password" id="lmPw" placeholder="Enter your password" oninput="onLoginPw(this.value)" onkeydown="if(event.key==='Enter')doLoginFinish()">
+          <button class="eye" type="button" onclick="toggleEye('lmPw',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg></button>
+        </div>
+      </div>
+      <button class="btn-forgot" onclick="toLoginForgot()">Forgot password</button>
+      <div class="modal-btn-row">
+        <button class="link" onclick="toLStep('lm-id')">Back</button>
+        <button class="btn-pill" id="lmLogin" onclick="doLoginFinish()" disabled>Log in</button>
+      </div>
     </div>
 
-    <div class="divider">OR</div>
-
-    <div class="social-row">
-      <button class="btn-pill ghost" aria-label="Continue with Apple" onclick="socialLogin('Apple')">
-        <img src="assets/ic-apple.svg" alt="Apple">
-      </button>
-      <button class="btn-pill ghost" aria-label="Continue with Facebook" onclick="socialLogin('Facebook')">
-        <img src="assets/ic-facebook.svg" alt="Facebook">
-      </button>
-      <button class="btn-pill ghost" aria-label="Continue with Google" onclick="socialLogin('Google')">
-        <img src="assets/ic-google.svg" alt="Google">
-      </button>
+    <!-- LOGIN · forgot: verify code -->
+    <div class="lstep" id="lm-forgot">
+      <div class="login-logo"><img src="assets/brand-logos.svg" alt="Giant · Liv · Momentum · Cadex"></div>
+      <h2 class="vc-title">Forgot password</h2>
+      <div class="id-row"><span class="ic" id="lmFgIcon"></span><span id="lmFgDisp"></span></div>
+      <div class="field-group" style="margin-top:24px;">
+        <label for="lmFgCode">Verify Code</label>
+        <input type="text" id="lmFgCode" placeholder="Enter verify code" oninput="onFgCode(this.value)">
+      </div>
+      <p class="resend-left" id="lmFgResend"></p>
+      <div class="modal-btn-row">
+        <button class="link" onclick="toLStep('lm-id')">Back</button>
+        <button class="btn-pill" id="lmFgNext" onclick="toLoginReset()" disabled>Next</button>
+      </div>
     </div>
 
-    <div class="modal-contact" onclick="alert('(Prototype) Contact us flow not implemented.')">
-      <img src="assets/ic-email.svg" alt="" width="16" height="16">
-      <span>Contact us</span>
+    <!-- LOGIN · forgot: reset password -->
+    <div class="lstep" id="lm-reset">
+      <div class="login-logo"><img src="assets/brand-logos.svg" alt="Giant · Liv · Momentum · Cadex"></div>
+      <h2 class="vc-title">Reset password</h2>
+      <div class="field-group" style="margin-top:24px;">
+        <label for="lmRpw1">New Password</label>
+        <div class="pw-wrap">
+          <input type="password" id="lmRpw1" placeholder="Create new password" oninput="onResetPw()">
+          <button class="eye" type="button" onclick="toggleEye('lmRpw1',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg></button>
+        </div>
+      </div>
+      <div class="field-group" style="margin-top:16px;">
+        <label for="lmRpw2">Confirm Password</label>
+        <div class="pw-wrap">
+          <input type="password" id="lmRpw2" placeholder="Re-enter new password" oninput="onResetPw()">
+          <button class="eye" type="button" onclick="toggleEye('lmRpw2',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg></button>
+        </div>
+      </div>
+      <span class="pw-err" id="lmRpwErr"></span>
+      <div class="modal-btn-row">
+        <button class="link" onclick="toLStep('lm-forgot')">Back</button>
+        <button class="btn-pill" id="lmRpwConfirm" onclick="doLoginReset()" disabled>Confirm</button>
+      </div>
     </div>
+
+    <!-- SIGN UP · step 1: identifier -->
+    <div class="lstep" id="su-id">
+      <div class="login-logo"><img src="assets/brand-logos.svg" alt="Giant · Liv · Momentum · Cadex"></div>
+      <h2 class="vc-title">Sign up</h2>
+      <div class="su-stepline"><span class="su-dot">1</span><span>Enter your email or mobile number</span></div>
+      <div class="field-group" style="margin-top:24px;">
+        <label for="suId">Email or Phone number</label>
+        <div class="cc-input">
+          <div class="cc-pre" id="suCcPre">
+            <button type="button" class="cc-btn" onclick="toggleCC('su')"><span id="suCcVal">+1</span><svg width="11" height="7" viewBox="0 0 12 8" fill="none" stroke="#555" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1.5 6 6.5 11 1.5"/></svg></button>
+            <div class="cc-sep"></div>
+            <div class="cc-menu" id="suCcMenu"></div>
+          </div>
+          <input type="text" id="suId" placeholder="Email or phone number" oninput="onSuId(this.value)" onkeydown="if(event.key==='Enter')toSuPw()">
+        </div>
+      </div>
+      <div class="modal-btn-row">
+        <button class="link" onclick="toLStep('lm-id')">Back</button>
+        <button class="btn-pill" id="suNext" onclick="toSuPw()" disabled>Next</button>
+      </div>
+    </div>
+
+    <!-- SIGN UP · step 2: setup password -->
+    <div class="lstep" id="su-pw">
+      <div class="login-logo"><img src="assets/brand-logos.svg" alt="Giant · Liv · Momentum · Cadex"></div>
+      <h2 class="vc-title">Sign up</h2>
+      <div class="su-stepline"><span class="su-dot">2</span><span>Create a password for your account</span></div>
+      <div class="id-row"><span class="ic" id="suPwIcon"></span><span id="suPwDisp"></span></div>
+      <div class="field-group" style="margin-top:18px;">
+        <label for="suPw1">Password</label>
+        <div class="pw-wrap">
+          <input type="password" id="suPw1" placeholder="Create your password" oninput="onSuPw()">
+          <button class="eye" type="button" onclick="toggleEye('suPw1',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg></button>
+        </div>
+      </div>
+      <div class="field-group" style="margin-top:16px;">
+        <label for="suPw2">Confirm Password</label>
+        <div class="pw-wrap">
+          <input type="password" id="suPw2" placeholder="Re-enter your password" oninput="onSuPw()">
+          <button class="eye" type="button" onclick="toggleEye('suPw2',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg></button>
+        </div>
+      </div>
+      <span class="pw-err" id="suPwErr"></span>
+      <div class="modal-btn-row">
+        <button class="link" onclick="toLStep('su-id')">Back</button>
+        <button class="btn-pill" id="suPwNext" onclick="toSuVerify()" disabled>Next</button>
+      </div>
+    </div>
+
+    <!-- SIGN UP · step 3: verify code -->
+    <div class="lstep" id="su-verify">
+      <div class="login-logo"><img src="assets/brand-logos.svg" alt="Giant · Liv · Momentum · Cadex"></div>
+      <h2 class="vc-title">Sign up</h2>
+      <div class="su-stepline"><span class="su-dot">3</span><span>Enter the verification code sent to your device</span></div>
+      <div class="id-row"><span class="ic" id="suVtIcon"></span><span id="suVtDisp"></span></div>
+      <div class="field-group" style="margin-top:18px;">
+        <label for="suCode">Verify Code</label>
+        <input type="text" id="suCode" placeholder="Enter verify code" oninput="onSuCode(this.value)">
+      </div>
+      <p class="resend-left" id="suResend"></p>
+      <div class="modal-btn-row">
+        <button class="link" onclick="toLStep('su-pw')">Back</button>
+        <button class="btn-pill" id="suVerifyNext" onclick="toSuProfile()" disabled>Next</button>
+      </div>
+    </div>
+
+    <!-- SIGN UP · step 4: personal information -->
+    <div class="lstep" id="su-profile">
+      <div class="login-logo"><img src="assets/brand-logos.svg" alt="Giant · Liv · Momentum · Cadex"></div>
+      <h2 class="vc-title">Sign up</h2>
+      <div class="su-stepline"><span class="su-dot">4</span><span>Personal information</span></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px;">
+        <div class="field-group" style="margin-top:0;"><label for="suFname">First Name</label><input type="text" id="suFname" placeholder="First name" oninput="onSuProfile()"></div>
+        <div class="field-group" style="margin-top:0;"><label for="suLname">Last Name</label><input type="text" id="suLname" placeholder="Last name" oninput="onSuProfile()"></div>
+      </div>
+      <div class="ck-row" id="ckTerms" onclick="toggleSuCk('terms')"><span class="ckbox"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span><span>Accept the Terms Conditions &amp; Privacy Policy</span></div>
+      <div class="ck-row" id="ckNews" onclick="toggleSuCk('news')"><span class="ckbox"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span><span>Subscribe to cycling and event updates</span></div>
+      <div class="modal-btn-row">
+        <button class="link" onclick="toLStep('su-verify')">Back</button>
+        <button class="btn-pill" id="suSignup" onclick="doGidSignUp()" disabled>Sign up</button>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -557,9 +779,18 @@
   </div>
 </div>
 
+<!-- Proposal B: redirect loading screen -->
+<div class="gid-loading" id="gidLoading">
+  <div class="box">
+    <img class="logo" src="assets/brand-logos.svg" alt="">
+    <div class="gid-spinner"></div>
+    <div class="txt">Connecting to Giant ID…</div>
+  </div>
+</div>
+
 <!-- Toast -->
 <div class="toast" id="toast">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6"/></svg>
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#22AD5C"/><path d="M5.8 10.3l2.6 2.6L14 7.3" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
   <span class="toast-msg"></span>
 </div>
 
@@ -626,6 +857,13 @@ const US_STATES = ["Alabama","Alaska","Arizona","Arkansas","California","Colorad
 const state = {serial:"",lock:"",account:{mode:""},contact:{},purchase:{},buydate:""};
 let selectedDealer="";
 
+/* 提案切換：設定 body[data-proposal]，CSS/JS 可依此切換 A / B */
+function setProposal(p){
+  document.body.setAttribute('data-proposal',p);
+  document.getElementById('propA').classList.toggle('active',p==='A');
+  document.getElementById('propB').classList.toggle('active',p==='B');
+}
+
 function showErr(id,msg){const e=document.getElementById(id);if(msg)e.textContent=msg;e.classList.add('show');}
 function hideErr(id){document.getElementById(id).classList.remove('show');}
 
@@ -683,8 +921,30 @@ document.getElementById('serial').addEventListener('input',function(){
 
 /* ---------- STEP 2 : Giant ID ---------- */
 // 卡片切換：登入 modal / 新客戶展開表單
-function openLoginModal(){hideErr('errModal');document.getElementById('loginModal').classList.add('show');}
+function openLoginModal(){
+  hideErr('errModal');
+  document.getElementById('modalEmail').value='';
+  loginIdVal='';loginMode='';
+  updateCCMode('lm',false);
+  document.getElementById('lmNext').disabled=true;
+  toLStep('lm-id');
+  if(document.body.dataset.proposal==='B'){
+    // Proposal B：模擬跳轉到 GID 網頁，先 loading 再顯示登入頁
+    const load=document.getElementById('gidLoading');
+    load.classList.add('show');
+    setTimeout(function(){
+      load.classList.remove('show');
+      document.getElementById('loginModal').classList.add('show');
+    },1100);
+  }else{
+    document.getElementById('loginModal').classList.add('show');
+  }
+}
 function closeLoginModal(){document.getElementById('loginModal').classList.remove('show');}
+function toLStep(id){
+  document.querySelectorAll('#loginModal .lstep').forEach(function(s){s.classList.remove('on');});
+  const el=document.getElementById(id);if(el)el.classList.add('on');
+}
 function openNewCustomer(){
   document.getElementById('choiceCards').style.display='none';
   document.getElementById('newCustomer').style.display='block';
@@ -695,17 +955,157 @@ function backToChoice(){
   document.getElementById('choiceCards').style.display='grid';
   document.getElementById('loginHint').style.display='none';
 }
-// Modal「Sign up」：關閉 modal，展開新客戶註冊表單
-function signUpFromModal(){closeLoginModal();openNewCustomer();}
 
-// 路徑 1：登入既有帳號（modal）
-function giantLogin(){
-  hideErr('errModal');
-  const em=document.getElementById('modalEmail').value.trim();
-  if(!ACCEPT_ANY_LOGIN && !em){showErr('errModal','Please enter your email or phone number.');return;}
-  if(!em){showErr('errModal','Please enter your email or phone number.');return;}
-  finishLogin(em);
+/* ===== Giant ID modal helpers ===== */
+function detectMode(v){if(!v)return 'unknown';if(/[@.]/.test(v))return 'email';if(/^[\d\s+\-()]+$/.test(v)&&/\d/.test(v))return 'phone';return 'unknown';}
+function pwMeetsRule(v){return /[a-z]/.test(v)&&/[0-9]/.test(v);}
+function iconHtml(mode){
+  if(mode==='phone')return '<img src="assets/id-phone.svg" width="20" height="20" alt="">';
+  return '<img src="assets/id-email.svg" width="20" height="20" alt="">';
 }
+const EYE_OFF='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 3l18 18"/><path d="M10.6 10.6a3 3 0 0 0 4.2 4.2"/><path d="M9.9 5.2A10 10 0 0 1 12 5c7 0 11 7 11 7a18 18 0 0 1-3.2 4.2M6.6 6.6A18 18 0 0 0 1 12s4 7 11 7a10 10 0 0 0 3-.45"/></svg>';
+const EYE_ON='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>';
+function toggleEye(inputId,btn){const inp=document.getElementById(inputId);const show=inp.type==='password';inp.type=show?'text':'password';btn.innerHTML=show?EYE_OFF:EYE_ON;}
+function startCountdown(containerId){
+  const el=document.getElementById(containerId);let left=60;
+  el.innerHTML='<button class="resend-link" disabled>Resend ('+left+'s)</button>';
+  const btn=el.querySelector('button');
+  if(el._t)clearInterval(el._t);
+  el._t=setInterval(function(){left--;if(left<=0){clearInterval(el._t);btn.textContent='Resend';btn.disabled=false;btn.classList.add('active');btn.onclick=function(){startCountdown(containerId);};}else{btn.textContent='Resend ('+left+'s)';}},1000);
+}
+
+/* ===== Country-code selector ===== */
+const CC_CODES=[
+  {c:'+1',n:'United States / Canada'},{c:'+44',n:'United Kingdom'},{c:'+886',n:'Taiwan'},
+  {c:'+61',n:'Australia'},{c:'+81',n:'Japan'},{c:'+82',n:'South Korea'},
+  {c:'+49',n:'Germany'},{c:'+33',n:'France'},{c:'+86',n:'China'},{c:'+65',n:'Singapore'}
+];
+const CC_NS={lm:{pre:'lmCcPre',val:'lmCcVal',menu:'lmCcMenu',inp:'modalEmail'},su:{pre:'suCcPre',val:'suCcVal',menu:'suCcMenu',inp:'suId'}};
+const ccVal={lm:'+1',su:'+1'};
+function buildCCMenu(ns){
+  document.getElementById(CC_NS[ns].menu).innerHTML=CC_CODES.map(function(x){
+    return '<button type="button" onclick="pickCC(\''+ns+'\',\''+x.c+'\')"><span>'+x.n+'</span><span class="cm-code">'+x.c+'</span></button>';
+  }).join('');
+}
+function toggleCC(ns){document.getElementById(CC_NS[ns].menu).classList.toggle('on');}
+function pickCC(ns,code){
+  ccVal[ns]=code;
+  document.getElementById(CC_NS[ns].val).textContent=code;
+  document.getElementById(CC_NS[ns].menu).classList.remove('on');
+  adjustCCPad(ns);
+}
+function adjustCCPad(ns){
+  const o=CC_NS[ns],pre=document.getElementById(o.pre),inp=document.getElementById(o.inp);
+  setTimeout(function(){inp.style.paddingLeft=(pre.offsetWidth+8)+'px';},0);
+}
+function updateCCMode(ns,isPhone){
+  const o=CC_NS[ns],pre=document.getElementById(o.pre),inp=document.getElementById(o.inp);
+  if(isPhone){pre.classList.add('show');adjustCCPad(ns);}
+  else{pre.classList.remove('show');document.getElementById(o.menu).classList.remove('on');inp.style.paddingLeft='';}
+}
+// 點外面關閉國碼選單
+document.addEventListener('click',function(e){
+  ['lm','su'].forEach(function(ns){
+    const pre=document.getElementById(CC_NS[ns].pre);
+    if(pre && !pre.contains(e.target)) document.getElementById(CC_NS[ns].menu).classList.remove('on');
+  });
+});
+
+/* ===== LOGIN flow（Email → Password → Log in） ===== */
+let loginIdVal='', loginMode='';
+function onLoginId(v){loginIdVal=v;loginMode=detectMode(v);updateCCMode('lm',loginMode==='phone');document.getElementById('lmNext').disabled=!v.trim();}
+function idDisp(ns,mode,val){return (mode==='phone'?ccVal[ns]+' ':'')+val;}
+function toLoginPw(){
+  if(!loginIdVal.trim())return;
+  document.getElementById('lmPwIcon').innerHTML=iconHtml(loginMode);
+  document.getElementById('lmPwDisp').textContent=idDisp('lm',loginMode,loginIdVal);
+  document.getElementById('lmPw').value='';document.getElementById('lmLogin').disabled=true;
+  toLStep('lm-pw');setTimeout(function(){document.getElementById('lmPw').focus();},50);
+}
+function onLoginPw(v){document.getElementById('lmLogin').disabled=!v;}
+function doLoginFinish(){if(!document.getElementById('lmPw').value)return;finishLogin(loginIdVal);}
+function toLoginForgot(){
+  document.getElementById('lmFgIcon').innerHTML=iconHtml(loginMode);
+  document.getElementById('lmFgDisp').textContent=idDisp('lm',loginMode,loginIdVal);
+  document.getElementById('lmFgCode').value='';document.getElementById('lmFgNext').disabled=true;
+  startCountdown('lmFgResend');toLStep('lm-forgot');
+}
+function onFgCode(v){document.getElementById('lmFgNext').disabled=!v.trim();}
+function toLoginReset(){
+  document.getElementById('lmRpw1').value='';document.getElementById('lmRpw2').value='';
+  document.getElementById('lmRpwErr').textContent='';document.getElementById('lmRpwConfirm').disabled=true;
+  toLStep('lm-reset');
+}
+function onResetPw(){
+  const p1=document.getElementById('lmRpw1').value,p2=document.getElementById('lmRpw2').value,err=document.getElementById('lmRpwErr');
+  if(p1&&!pwMeetsRule(p1))err.textContent='Password must contain at least 1 lowercase letter and 1 number';
+  else if(p2&&p1!==p2)err.textContent='Passwords do not match';
+  else err.textContent='';
+  document.getElementById('lmRpwConfirm').disabled=!(p1&&pwMeetsRule(p1)&&p2&&p1===p2);
+}
+function doLoginReset(){toLStep('lm-pw');showToast('Password updated.');}
+
+/* ===== SIGN UP flow（Email → Setup password → Verify → Personal info） ===== */
+let suIdVal='', suMode='', suTerms=false, suNews=true;
+function toSignup(){document.getElementById('suId').value='';suIdVal='';suMode='';updateCCMode('su',false);document.getElementById('suNext').disabled=true;toLStep('su-id');setTimeout(function(){document.getElementById('suId').focus();},50);}
+function onSuId(v){suIdVal=v;suMode=detectMode(v);updateCCMode('su',suMode==='phone');document.getElementById('suNext').disabled=!v.trim();}
+function toSuPw(){
+  if(!suIdVal.trim())return;
+  document.getElementById('suPwIcon').innerHTML=iconHtml(suMode);
+  document.getElementById('suPwDisp').textContent=idDisp('su',suMode,suIdVal);
+  document.getElementById('suPw1').value='';document.getElementById('suPw2').value='';
+  document.getElementById('suPwErr').textContent='';document.getElementById('suPwNext').disabled=true;
+  toLStep('su-pw');setTimeout(function(){document.getElementById('suPw1').focus();},50);
+}
+function onSuPw(){
+  const p1=document.getElementById('suPw1').value,p2=document.getElementById('suPw2').value,err=document.getElementById('suPwErr');
+  if(p1&&!pwMeetsRule(p1))err.textContent='Password must contain at least 1 lowercase letter and 1 number';
+  else if(p2&&p1!==p2)err.textContent='Passwords do not match';
+  else err.textContent='';
+  document.getElementById('suPwNext').disabled=!(p1&&pwMeetsRule(p1)&&p2&&p1===p2);
+}
+function toSuVerify(){
+  document.getElementById('suVtIcon').innerHTML=iconHtml(suMode);
+  document.getElementById('suVtDisp').textContent=idDisp('su',suMode,suIdVal);
+  document.getElementById('suCode').value='';document.getElementById('suVerifyNext').disabled=true;
+  startCountdown('suResend');toLStep('su-verify');
+}
+function onSuCode(v){document.getElementById('suVerifyNext').disabled=!v.trim();}
+function toSuProfile(){
+  suTerms=false;suNews=false;
+  document.getElementById('suFname').value='';document.getElementById('suLname').value='';
+  document.getElementById('ckTerms').classList.remove('checked');
+  document.getElementById('ckNews').classList.remove('checked');
+  document.getElementById('suSignup').disabled=true;
+  toLStep('su-profile');setTimeout(function(){document.getElementById('suFname').focus();},50);
+}
+function onSuProfile(){
+  const f=document.getElementById('suFname').value.trim(),l=document.getElementById('suLname').value.trim();
+  document.getElementById('suSignup').disabled=!(f&&l&&suTerms);
+}
+function toggleSuCk(which){
+  if(which==='terms'){suTerms=!suTerms;document.getElementById('ckTerms').classList.toggle('checked',suTerms);}
+  else{suNews=!suNews;document.getElementById('ckNews').classList.toggle('checked',suNews);}
+  onSuProfile();
+}
+function doGidSignUp(){
+  if(!suTerms)return;
+  const fn=document.getElementById('suFname').value.trim();
+  const ln=document.getElementById('suLname').value.trim();
+  const isEmail=suMode==='email';
+  const ident=isEmail?suIdVal:(ccVal.su+' '+suIdVal);
+  state.account={mode:'create',email:ident};
+  state.contact={firstname:fn,lastname:ln,email:isEmail?ident:'',phone:isEmail?'':ident,fromAccount:true};
+  closeLoginModal();
+  document.getElementById('choiceCards').style.display='none';
+  document.getElementById('newCustomer').style.display='none';
+  const box=document.getElementById('loggedIn');
+  box.innerHTML='&#10003; Giant ID created — <b>'+ident+'</b>. <a onclick="giantLogout()">Not you? Log out</a>';
+  box.classList.add('show');
+  goStep(3);
+  showToast('Giant ID created.');
+}
+
 // 社群登入（Demo）
 function socialLogin(provider){finishLogin(provider+' account');}
 // 共用：完成登入流程
@@ -720,6 +1120,7 @@ function finishLogin(em){
     '<a onclick="giantLogout()">Not you? Log out</a>';
   box.classList.add('show');
   goStep(3);
+  showToast('Logged in successfully.');
 }
 function giantLogout(){
   state.account={mode:""};state.contact={};
@@ -736,33 +1137,15 @@ function submitContact(){
   const c={
     gender:getTitle(),firstname:val('firstname'),lastname:val('lastname'),
     address:val('address'),postal:val('postal'),city:val('city'),state:val('state'),
-    phone:val('phone'),email:val('email'),
-    news:document.getElementById('news').checked
+    phone:val('phone'),email:val('email')
   };
   // 必填檢查（對應原站 * 欄位）
   const required={firstname:'First name',lastname:'Last name',address:'Street',postal:'Zipcode',city:'City',state:'State',phone:'Phone number',email:'Email'};
   for(const k in required){ if(!c[k]){showErr('err2','Please complete all required fields (*). Missing: '+required[k]);return;} }
 
-  // Optional：建立 Giant ID 帳號需「密碼 + 勾選同意框」兩者同時具備
-  const pw=val('password'), pc=val('passwordConfirm');
-  const wantNews=document.getElementById('news').checked;
-  if(pw){
-    if(pw.length<MIN_PASSWORD_LEN){showErr('err2','Password must be at least '+MIN_PASSWORD_LEN+' characters.');return;}
-    if(pw!==pc){showErr('err2','Passwords do not match.');return;}
-    if(!wantNews){showErr('err2','Please check the box above to create a Giant ID account.');return;}
-    if(c.phone==='1111'){showErr('err2','This email or Phone number is already registered with a Giant ID. Try Log in instead.');return;}
-    state.account={mode:'create',email:c.email};
-  }else{
-    if(wantNews){showErr('err2','Please enter a password to create a Giant ID account.');return;}
-    state.account={mode:'guest'};
-  }
+  // New customer = 訪客註冊（不建立帳號）
+  state.account={mode:'guest'};
   state.contact=c;
-
-  // 建立帳號（密碼 + 勾選皆通過）→ Email 驗證碼 modal
-  if(pw){
-    openVerifyModal(c.email);
-    return;
-  }
   goStep(3);
 }
 
@@ -867,6 +1250,7 @@ function submitFinal(){
 /* ---------- init ---------- */
 US_STATES.forEach(s=>{const o=document.createElement('option');o.textContent=s;document.getElementById('state').appendChild(o);});
 searchDealers();
+buildCCMenu('lm');buildCCMenu('su');
 
 /* 彩蛋：連點兩下任一欄位 → 自動帶入合適的示範值（無提示） */
 const AUTOFILL={
@@ -876,7 +1260,10 @@ const AUTOFILL={
   phone:'0989329564', email:'ethen@gmail.com',
   password:'Password123', passwordConfirm:'Password123',
   modalEmail:'ethen@gmail.com', verifyCode:'123456',
-  dealerSearch:'Los Angeles', popDesc:'Online marketplace', buydate:'2026-06-12'
+  dealerSearch:'Los Angeles', popDesc:'Online marketplace', buydate:'2026-06-12',
+  lmPw:'Password123', lmFgCode:'123456', lmRpw1:'Password123', lmRpw2:'Password123',
+  suId:'ethen@gmail.com', suPw1:'Password123', suPw2:'Password123', suCode:'123456',
+  suFname:'Ethen', suLname:'Wu'
 };
 document.addEventListener('dblclick',function(e){
   const el=e.target;
