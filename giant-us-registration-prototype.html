@@ -190,11 +190,21 @@
   }
 
   /* ---- Step 2: Existing / New customer choice cards ---- */
-  .choice-cards{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:560px;margin-bottom:10px;}
+  .choice-cards{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:680px;margin-bottom:10px;align-items:stretch;}
   @media(max-width:560px){.choice-cards{grid-template-columns:1fr;}}
-  .choice-card{border:1px solid var(--line);border-radius:12px;padding:24px 22px;background:#fff;display:flex;flex-direction:column;}
+  .choice-card{border:1px solid var(--line);border-radius:12px;padding:20px 22px;background:#fff;display:flex;flex-direction:column;}
+  .choice-card.featured{border:1.5px solid rgba(6,3,141,.18);}
   .choice-card h3{margin:0 0 8px;font-size:18px;font-weight:800;color:#111;}
-  .choice-card p{margin:0 0 20px;font-size:14px;color:#58626E;flex:1;}
+  .choice-card p{margin:0 0 14px;font-size:14px;color:#58626E;}
+  .card-reassure{font-size:13px;color:#888;}
+  .gid-benefits{list-style:none;margin:0 0 16px;padding:11px 14px;display:flex;flex-direction:column;gap:8px;
+    background:rgba(6,3,141,.04);border-radius:8px;}
+  .gid-benefits li{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:#444;line-height:1.45;}
+  .gid-benefits li svg{flex:0 0 auto;margin-top:1px;color:var(--giant-navy);}
+  .card-actions{margin-top:auto;display:flex;flex-direction:column;align-items:flex-start;gap:10px;}
+  .card-link{color:var(--giant-navy);font-weight:700;font-size:14px;cursor:pointer;
+    font-family:'Overpass','Open Sans',Arial,sans-serif;}
+  .card-link:hover{text-decoration:underline;}
 
   /* ---- Black pill buttons (Giant ID design system) ---- */
   .btn-pill{display:inline-flex;align-items:center;justify-content:center;gap:6px;align-self:flex-start;
@@ -443,15 +453,26 @@
 
           <!-- Choice: existing vs new customer -->
           <div class="choice-cards" id="choiceCards">
-            <div class="choice-card">
+            <div class="choice-card featured">
               <h3>Giant ID</h3>
               <p>Log in to your account, or create one to manage your registrations.</p>
-              <button class="btn-pill" onclick="openLoginModal()">Log in</button>
+              <!-- TODO: replace with the confirmed Giant ID benefits — placeholder copy -->
+              <ul class="gid-benefits">
+                <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6"/></svg><span>Track your registrations and warranty</span></li>
+                <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6"/></svg><span>Faster registration next time</span></li>
+                <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6"/></svg><span>One account across Giant, Liv, Momentum and CADEX</span></li>
+              </ul>
+              <div class="card-actions">
+                <button class="btn-pill" onclick="openLoginModal()">Log in</button>
+              </div>
             </div>
             <div class="choice-card">
               <h3>New customer</h3>
               <p>Register your product as a guest — no account needed.</p>
-              <button class="btn-pill" onclick="openNewCustomer()">Continue</button>
+              <p class="card-reassure">You can always create a Giant ID later.</p>
+              <div class="card-actions">
+                <button class="btn-pill" onclick="openNewCustomer()">Continue</button>
+              </div>
             </div>
           </div>
 
