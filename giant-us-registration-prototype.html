@@ -206,6 +206,16 @@
   .card-link{color:var(--giant-navy);font-weight:700;font-size:14px;cursor:pointer;
     font-family:'Overpass','Open Sans',Arial,sans-serif;}
   .card-link:hover{text-decoration:underline;}
+  /* Step-2 choice: A = single combined card, B = two cards */
+  [data-proposal="A"] .only-b{display:none;}
+  [data-proposal="B"] .only-a{display:none;}
+  .choice-a{max-width:460px;margin-bottom:10px;}
+  .gid-benefits.two-col{display:grid;grid-template-columns:1fr 1fr;gap:9px 20px;}
+  @media(max-width:520px){.gid-benefits.two-col{grid-template-columns:1fr;}}
+  .choice-a .card-actions{align-items:stretch;}
+  .choice-a .card-actions .btn-pill{width:100%;min-width:0;}
+  .guest-link-row{margin:14px 0 0;font-size:14px;color:#58626E;text-align:center;}
+  .guest-link-row a{color:inherit;font-weight:inherit;text-decoration:underline;cursor:pointer;}
 
   /* ---- Black pill buttons (Giant ID design system) ---- */
   .btn-pill{display:inline-flex;align-items:center;justify-content:center;gap:6px;align-self:flex-start;
@@ -453,27 +463,50 @@
         <div class="step-body">
 
           <!-- Choice: existing vs new customer -->
-          <div class="choice-cards" id="choiceCards">
-            <div class="choice-card featured">
-              <h3>Giant ID</h3>
-              <p>Log in to your account, or create one to manage your registrations.</p>
-              <!-- TODO: replace with the confirmed Giant ID benefits — placeholder copy -->
-              <ul class="gid-benefits">
-                <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6"/></svg><span>Track your registrations and warranty</span></li>
-                <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6"/></svg><span>Faster registration next time</span></li>
-                <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6"/></svg><span>One account across Giant, Liv, Momentum and CADEX</span></li>
-              </ul>
-              <div class="card-actions">
-                <button class="btn-pill" onclick="openLoginModal()">Log in</button>
+          <div id="choiceCards">
+
+            <!-- Proposal A: single combined Giant ID card -->
+            <div class="choice-a only-a">
+              <div class="choice-card">
+                <h3>Save your registration</h3>
+                <p>Sign in or create a free Giant ID — one account across Giant, Liv, Momentum &amp; CADEX.</p>
+                <!-- TODO: replace with the confirmed Giant ID benefits — placeholder copy -->
+                <ul class="gid-benefits two-col">
+                  <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6"/></svg><span>Track &amp; warranty</span></li>
+                  <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6"/></svg><span>Faster next time</span></li>
+                  <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6"/></svg><span>Online claims</span></li>
+                  <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6"/></svg><span>Saved details</span></li>
+                </ul>
+                <div class="card-actions">
+                  <button class="btn-pill" onclick="openLoginModal()">Sign in or create account</button>
+                </div>
+              </div>
+              <p class="guest-link-row">Prefer not to create an account? <a onclick="openNewCustomer()">Continue as a guest</a></p>
+            </div>
+
+            <!-- Proposal B: two cards (Giant ID + New customer) -->
+            <div class="choice-cards only-b">
+              <div class="choice-card featured">
+                <h3>Giant ID</h3>
+                <p>Log in to your account, or create one to manage your registrations.</p>
+                <ul class="gid-benefits">
+                  <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6"/></svg><span>Track your registrations and warranty</span></li>
+                  <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6"/></svg><span>Faster registration next time</span></li>
+                  <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6"/></svg><span>One account across Giant, Liv, Momentum and CADEX</span></li>
+                </ul>
+                <div class="card-actions">
+                  <button class="btn-pill" onclick="openLoginModal()">Log in</button>
+                </div>
+              </div>
+              <div class="choice-card">
+                <h3>New customer</h3>
+                <p>Register your product as a guest — no account needed.</p>
+                <div class="card-actions">
+                  <button class="btn-pill" onclick="openNewCustomer()">Continue</button>
+                </div>
               </div>
             </div>
-            <div class="choice-card">
-              <h3>New customer</h3>
-              <p>Register your product as a guest — no account needed.</p>
-              <div class="card-actions">
-                <button class="btn-pill" onclick="openNewCustomer()">Continue</button>
-              </div>
-            </div>
+
           </div>
 
           <!-- Logged-in confirmation -->
@@ -976,7 +1009,7 @@ function openNewCustomer(){
 }
 function backToChoice(){
   document.getElementById('newCustomer').style.display='none';
-  document.getElementById('choiceCards').style.display='grid';
+  document.getElementById('choiceCards').style.display='block';
   document.getElementById('loginHint').style.display='none';
 }
 
@@ -1149,7 +1182,7 @@ function finishLogin(em){
 function giantLogout(){
   state.account={mode:""};state.contact={};
   document.getElementById('loggedIn').classList.remove('show');
-  document.getElementById('choiceCards').style.display='grid';
+  document.getElementById('choiceCards').style.display='block';
   document.getElementById('newCustomer').style.display='none';
   goStep(2);
 }
